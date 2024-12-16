@@ -1,20 +1,14 @@
-package com.example.Exercise6.interfaceadapters.controllers;
+package de.hs_bremen.mkss.rest_service.interfaceadapters.controllers;
 
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.usecases.ItemInputData;
-import com.example.usecases.OrderInteractor;
-import com.example.usecases.OrderOutputData;
+import de.hs_bremen.mkss.usecases.ItemInputData;
+import de.hs_bremen.mkss.usecases.OrderInteractor;
+import de.hs_bremen.mkss.usecases.OrderOutputData;
 
 @RestController
 @RequestMapping("/orders") // Wszystkie endpointy zaczynają się od /orders

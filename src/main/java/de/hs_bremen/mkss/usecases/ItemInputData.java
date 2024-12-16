@@ -1,4 +1,4 @@
-package com.example.usecases;
+package de.hs_bremen.mkss.usecases;
 
 public class ItemInputData {
     private String name;

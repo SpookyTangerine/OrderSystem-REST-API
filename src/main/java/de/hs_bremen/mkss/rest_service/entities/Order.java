@@ -1,17 +1,11 @@
-package com.example.Exercise6.entities;
+package de.hs_bremen.mkss.rest_service.entities;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 
 @Entity
@@ -19,7 +13,7 @@ import jakarta.persistence.Table;
 public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ArrayList<LineItem> items;
+    private List<LineItem> items = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
@@ -36,7 +30,6 @@ public class Order {
 
     public Order(String customerName){
         this.customerName = customerName;
-        this.items = new ArrayList<>();
     }
     
     
@@ -67,7 +60,7 @@ public class Order {
 
     //the orders are still not protected, should be changed 
     public List<LineItem> getItems() {
-        return new ArrayList<>(items);
+        return items;
     }
 
     public void addItem( LineItem item){

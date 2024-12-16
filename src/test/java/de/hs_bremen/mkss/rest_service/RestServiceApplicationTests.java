@@ -1,10 +1,10 @@
-package com.example.Exercise6;
+package de.hs_bremen.mkss.rest_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Exercise6ApplicationTests {
+class RestServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

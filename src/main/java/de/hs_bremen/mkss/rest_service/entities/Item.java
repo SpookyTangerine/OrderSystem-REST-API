@@ -1,4 +1,4 @@
-package com.example.Exercise6.entities;
+package de.hs_bremen.mkss.rest_service.entities;
 
 import jakarta.persistence.MappedSuperclass;
 

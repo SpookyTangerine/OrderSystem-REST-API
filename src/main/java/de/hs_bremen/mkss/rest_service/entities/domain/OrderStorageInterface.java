@@ -1,13 +1,13 @@
-package com.example.Exercise6.entities.domain;
+package de.hs_bremen.mkss.rest_service.entities.domain;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import de.hs_bremen.mkss.rest_service.entities.Order;
 
-import com.example.Exercise6.entities.Item;
-import com.example.Exercise6.entities.LineItem;
-import com.example.Exercise6.entities.Order;
+public interface OrderStorageInterface extends JpaRepository<Order, Long>{
+    //JpaRepository already provides standard CRUD methods
 
-public interface OrderStorageInterface {
 
+   /* 
     List<Order> getAllOrders();                       
     //Order findOrderById(Long id);                     
     //List<LineItem> findByOrderId(Long orderId);
@@ -22,7 +22,7 @@ public interface OrderStorageInterface {
     void deleteOrderById(Long orderId);                
     void deleteAllOrders(); 
     void updateOrder(Order order);
-
+    */
     
 }
 

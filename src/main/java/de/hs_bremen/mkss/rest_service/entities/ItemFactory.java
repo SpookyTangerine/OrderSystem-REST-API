@@ -1,7 +1,4 @@
-package com.example.Exercise6.entities;
-
-import org.springframework.stereotype.Component;
-
+package de.hs_bremen.mkss.rest_service.entities;
 
 public interface ItemFactory {
 
