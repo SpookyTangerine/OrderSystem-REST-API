@@ -89,9 +89,9 @@ public class Order {
     //      return this.checkoutDateTime;
     //  }
 
-    public void finishOrder(){
+    //public void finishOrder(){
         //this.checkoutDateTime = LocalDateTime.now();
-    }
+    //}
 
 
 }
