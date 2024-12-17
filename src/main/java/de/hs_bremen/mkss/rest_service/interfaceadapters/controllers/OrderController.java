@@ -39,12 +39,11 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<OrderOutputData> createNewOrder(@RequestBody CreateOrderRequest request) {
+        OrderOutputData newOrder = orderInteractor.createNewOrder(request.getCustomerName());
+        return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
+    }
 
-    System.out.println("Received request: " + request.getCustomerName());
     
-    OrderOutputData newOrder = orderInteractor.createNewOrder(request.getCustomerName());
-    return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
-}
     @GetMapping
     public ResponseEntity<List<OrderOutputData>> getAllOrders() {
         List<OrderOutputData> orders = orderInteractor.getAllOrders();
