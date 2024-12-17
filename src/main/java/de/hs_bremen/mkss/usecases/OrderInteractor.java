@@ -30,7 +30,7 @@ public class OrderInteractor {
 
     public List<OrderOutputData> getAllOrders() {
         return orderRepository.findAll().stream()
-                .map(this::mapToOrderOutputData) // Konwertujemy Order na OrderOutputData
+                .map(this::mapToOrderOutputData) 
                 .toList();
     }
 

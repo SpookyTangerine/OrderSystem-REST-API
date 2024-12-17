@@ -1,11 +1,18 @@
 package de.hs_bremen.mkss.rest_service.entities;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 
 @Entity
@@ -21,9 +28,8 @@ public class Order {
 
     @Column(name = "customer_name", nullable = false)
     private String customerName;
-    //private LocalDateTime checkoutDateTime;  <-zakomentowalam wszystko z checkouttime
+    //private LocalDateTime checkoutDateTime;  //<-zakomentowalam wszystko z checkouttime
 
-  //pusty kontruktor musi byc bo JPA wymaga
     public Order(){
 
     }
@@ -41,7 +47,7 @@ public class Order {
         
     }
 
-    public String getCustomerName() {  // Getter dla imienia klienta
+    public String getCustomerName() {  
         return customerName;
     }
 
@@ -79,9 +85,9 @@ public class Order {
         //checkoutDateTime = null;
     }
 
-    // public LocalDateTime getCheckoutDateTime(){
-    //     return this.checkoutDateTime;
-    // }
+    //  public LocalDateTime getCheckoutDateTime(){
+    //      return this.checkoutDateTime;
+    //  }
 
     public void finishOrder(){
         //this.checkoutDateTime = LocalDateTime.now();
