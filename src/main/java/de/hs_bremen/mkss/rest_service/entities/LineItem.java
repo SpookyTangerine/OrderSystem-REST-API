@@ -28,8 +28,6 @@ public class LineItem extends Item {
     @Column(name = "unit_price", nullable = false)
     private int unitPrice;
 
-
-
     public LineItem() {
         super();
     }

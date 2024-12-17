@@ -12,14 +12,6 @@ public class OrderOutputData {
     //private LocalDateTime checkoutDateTime;
     private String customerName;
 
-    // public OrderOutputData(Long orderId, String customerName, List<Item> items, int totalPrice, LocalDateTime checkoutDateTime) {
-    //     this.orderId = orderId;
-    //     this.customerName = customerName;
-    //     this.items = items;
-    //     this.totalPrice = totalPrice;
-    //     this.checkoutDateTime = checkoutDateTime;
-        
-    // }
 
     // additional constructor that omits checkoutDateTime to represent the situation where the order is being updated with new items
     public OrderOutputData(Long orderId, String customerName, List<LineItem> items, int totalPrice) {

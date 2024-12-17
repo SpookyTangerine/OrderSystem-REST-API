@@ -5,7 +5,6 @@ public class ItemInputData {
     private int price;
     private int quantity;
 
-    // Bezparametrowy konstruktor (potrzebny dla Springa)
     public ItemInputData() {}
 
     public ItemInputData(String name, int price, int quantity) {
