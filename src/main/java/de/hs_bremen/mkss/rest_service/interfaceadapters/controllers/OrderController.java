@@ -91,13 +91,8 @@ public class OrderController {
 
     @PatchMapping("/{id}/commit")
     public ResponseEntity<OrderOutputData> commitOrder(@PathVariable Long id) {
-        try {
-            orderInteractor.commitOrder(id);
-            return ResponseEntity.ok(orderInteractor.getOrderById(id));
-        } catch (IllegalArgumentException | IllegalStateException e){
-            return ResponseEntity.badRequest().build();
-        }
-        
+        orderInteractor.commitOrder(id);
+        return ResponseEntity.ok(orderInteractor.getOrderById(id));
     }
 
 

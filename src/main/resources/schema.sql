@@ -1,7 +1,8 @@
 CREATE TABLE orders_table (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     customer_name VARCHAR(255) NOT NULL,
-    order_status VARCHAR(20) DEFAULT 'EMPTY'
+    order_status VARCHAR(20) DEFAULT 'EMPTY',
+    checkout_date TIMESTAMP
 );
 
 -- Tworzenie tabeli 'line_items'

@@ -8,6 +8,7 @@ import de.hs_bremen.mkss.rest_service.entities.ItemFactory;
 import de.hs_bremen.mkss.rest_service.entities.LineItem;
 import de.hs_bremen.mkss.rest_service.entities.Order;
 import de.hs_bremen.mkss.rest_service.entities.domain.OrderStorageInterface;
+import de.hs_bremen.mkss.rest_service.exceptions.*;
 
 @Service
 public class OrderInteractor {
@@ -82,17 +83,24 @@ public class OrderInteractor {
                 order.getCustomerName(),
                 order.getItems(),
                 order.getTotalPrice(),
-                order.getOrderStatus()
-                //order.getCheckoutDateTime()
+                order.getOrderStatus(),
+                order.getCheckoutDate()
         );
     }
 
     public void commitOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
-            .orElseThrow(() -> new IllegalArgumentException("Order not found"));
-
-        order.commitOrder();
-        orderRepository.save(order);
+                .orElseThrow(() -> new OrderNotFound(orderId));
+    
+        if ("EMPTY".equals(order.getOrderStatus())) {
+            throw new InvalidOrderState("Cannot commit an empty order.");
+        }
+        if ("COMMITTED".equals(order.getOrderStatus())) {
+            throw new InvalidOrderState("Order has already been committed.");
+        }
+    
+        order.commitOrder(); // Set status to COMMITTED and checkout date
+        orderRepository.save(order); // Persist changes
     }
 
     public void processOrder(Long orderId) {
