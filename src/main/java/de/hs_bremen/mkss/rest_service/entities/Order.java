@@ -29,7 +29,7 @@ public class Order {
     private String customerName;
 
     @Column(name = "order_status", nullable = false)
-    private String orderstatus = "EMPTY";
+    private String orderStatus = "EMPTY";
 
     public Order(){
 
@@ -40,12 +40,12 @@ public class Order {
     }
     
     
-    public Order(Long id, String customerName, String orderstatus){
+    public Order(Long id, String customerName, String orderStatus){
 
         this.id = id;
         this.customerName = customerName;
         this.items = new ArrayList<>();
-        this.orderstatus = orderstatus;
+        this.orderStatus = orderStatus;
         
     }
 
@@ -58,14 +58,12 @@ public class Order {
     }
 
     public void removeLineItemFromOrder(String itemName) {
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getName().equals(itemName)) {
-                items.remove(i);
-                if (items.isEmpty()){
-                    this.orderstatus = "EMPTY";
-                }
-                break; 
-            }
+        if ("COMMITTED".equals(this.orderStatus)) {
+            throw new IllegalStateException("Cannot remove items from a committed order.");
+        }
+        items.removeIf(item -> item.getName().equals(itemName));
+        if (items.isEmpty()) {
+            this.orderStatus = "EMPTY";
         }
     }
 
@@ -75,8 +73,11 @@ public class Order {
     }
 
     public void addItem( LineItem item){
+        if ("COMMITTED".equals(this.orderStatus)) {
+            throw new IllegalStateException("Cannot add items to a committed order.");
+        }
         items.add(item);
-        this.orderstatus = "IN PREPARATION";
+        this.orderStatus = "IN PREPARATION";
     }
 
     public int getTotalPrice(){
@@ -89,21 +90,24 @@ public class Order {
     }
     public void clear() {
         items.clear();
-        this.orderstatus = "EMPTY";
+        this.orderStatus = "EMPTY";
         //checkoutDateTime = null;
     }
 
     public String getOrderStatus(){
-        return orderstatus;
+        return orderStatus;
     }
 
     //  public LocalDateTime getCheckoutDateTime(){
     //      return this.checkoutDateTime;
     //  }
 
-    public void finishOrder(){
-        //this.checkoutDateTime = LocalDateTime.now();
-        this.orderstatus = "COMMITED";
+
+    public void commitOrder() {
+        if (!"IN PREPARATION".equals(this.orderStatus)) {
+            throw new IllegalStateException("Only orders in IN_PREPARATION can be commited");
+        }
+        this.orderStatus = "COMMITTED";
     }
 
 

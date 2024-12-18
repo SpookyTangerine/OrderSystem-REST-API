@@ -86,4 +86,12 @@ public class OrderInteractor {
                 //order.getCheckoutDateTime()
         );
     }
+
+    public void commitOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+
+        order.commitOrder();
+        orderRepository.save(order);
+    }
 }

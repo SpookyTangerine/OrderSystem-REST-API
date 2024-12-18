@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,7 +51,7 @@ public class OrderController {
         List<OrderOutputData> orders = orderInteractor.getAllOrders();
         return ResponseEntity.ok(orders);
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<OrderOutputData> getOrderById(@PathVariable Long id) {
         OrderOutputData order = orderInteractor.getOrderById(id);
@@ -86,6 +87,17 @@ public class OrderController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PatchMapping("/{id}/commit")
+    public ResponseEntity<OrderOutputData> commitOrder(@PathVariable Long id) {
+        try {
+            orderInteractor.commitOrder(id);
+            return ResponseEntity.ok(orderInteractor.getOrderById(id));
+        } catch (IllegalArgumentException | IllegalStateException e){
+            return ResponseEntity.badRequest().build();
+        }
+        
     }
 }
 
