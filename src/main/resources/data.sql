@@ -1,7 +1,7 @@
 -- Insert data into the 'orders' table
 INSERT INTO orders_table (customer_name, order_status) VALUES 
-('zbigniew', 'in progress'), 
-('imie2', 'commietted');
+('zbigniew', 'IN PREPARATION'), 
+('imie2', 'IN PREPARATION');
 
 
 -- Insert data into the 'line_items' table
