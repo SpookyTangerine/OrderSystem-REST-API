@@ -1,6 +1,6 @@
 -- Insert data into the 'orders' table
 INSERT INTO orders_table (customer_name) VALUES 
-('imie1'), 
+('Keanu Reeves'), 
 ('imie2');
 
 
