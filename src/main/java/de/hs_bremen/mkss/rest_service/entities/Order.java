@@ -61,10 +61,10 @@ public class Order {
         for (int i = 0; i < items.size(); i++) {
             if (items.get(i).getName().equals(itemName)) {
                 items.remove(i);
+                if (items.isEmpty()){
+                    this.orderstatus = "EMPTY";
+                }
                 break; 
-            }
-            if (items.isEmpty()){
-                this.orderstatus = "Empty";
             }
         }
     }
@@ -76,7 +76,7 @@ public class Order {
 
     public void addItem( LineItem item){
         items.add(item);
-        this.orderstatus = "in progress";
+        this.orderstatus = "IN PREPARATION";
     }
 
     public int getTotalPrice(){
@@ -89,7 +89,7 @@ public class Order {
     }
     public void clear() {
         items.clear();
-        this.orderstatus = "Empty";
+        this.orderstatus = "EMPTY";
         //checkoutDateTime = null;
     }
 
@@ -103,7 +103,7 @@ public class Order {
 
     public void finishOrder(){
         //this.checkoutDateTime = LocalDateTime.now();
-        this.orderstatus = "Commited";
+        this.orderstatus = "COMMITED";
     }
 
 
