@@ -1,6 +1,6 @@
 package de.hs_bremen.mkss.rest_service.entities;
 
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -30,6 +30,9 @@ public class Order {
 
     @Column(name = "order_status", nullable = false)
     private String orderStatus = "EMPTY";
+
+    @Column(name = "checkout_date")
+    private LocalDateTime checkoutDate;
 
     public Order(){
 
@@ -103,9 +106,9 @@ public class Order {
         return orderStatus;
     }
 
-    //  public LocalDateTime getCheckoutDateTime(){
-    //      return this.checkoutDateTime;
-    //  }
+    public LocalDateTime getCheckoutDate(){
+        return this.checkoutDate;
+    }
 
 
     public void commitOrder() {
@@ -113,6 +116,7 @@ public class Order {
             throw new IllegalStateException("Only orders in IN_PREPARATION can be commited");
             }
         this.orderStatus = "COMMITTED";
+        this.checkoutDate = LocalDateTime.now();
     }
 
     public void processOrder(){
