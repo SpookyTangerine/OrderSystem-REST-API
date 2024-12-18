@@ -4,6 +4,7 @@ package de.hs_bremen.mkss.rest_service.entities;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -111,7 +112,10 @@ public class Order {
     }
 
     public void processOrder(){
-        if (orderStatus == "COMMITED"){
+        if (!"COMMITTED".equals(this.orderStatus)){
+            throw new IllegalStateException("Only orders in COMMITTED can be processed");
+        }
+        else{
             Random random = new Random();
             int randomBinary = random.nextInt(2);
             if (randomBinary == 0){
