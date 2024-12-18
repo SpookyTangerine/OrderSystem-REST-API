@@ -94,4 +94,11 @@ public class OrderInteractor {
         order.commitOrder();
         orderRepository.save(order);
     }
+
+    public void processOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+            .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+
+        order.processOrder();
+    }
 }

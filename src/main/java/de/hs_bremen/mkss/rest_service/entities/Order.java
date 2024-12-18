@@ -3,7 +3,7 @@ package de.hs_bremen.mkss.rest_service.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -106,11 +106,24 @@ public class Order {
     public void commitOrder() {
         if (!"IN PREPARATION".equals(this.orderStatus)) {
             throw new IllegalStateException("Only orders in IN_PREPARATION can be commited");
-        }
+            }
         this.orderStatus = "COMMITTED";
     }
 
-
+    public void processOrder(){
+        if (orderStatus == "COMMITED"){
+            Random random = new Random();
+            int randomBinary = random.nextInt(2);
+            if (randomBinary == 0){
+                this.orderStatus = "REJECTED";
+            }
+            else{
+                this.orderStatus = "ACCEPTED";
+            }
+        }
+    }
 }
+
+
 
 

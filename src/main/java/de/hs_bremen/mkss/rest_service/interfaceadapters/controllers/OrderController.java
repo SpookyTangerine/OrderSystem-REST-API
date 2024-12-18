@@ -51,7 +51,7 @@ public class OrderController {
         List<OrderOutputData> orders = orderInteractor.getAllOrders();
         return ResponseEntity.ok(orders);
     }
-
+    
     @GetMapping("/{id}")
     public ResponseEntity<OrderOutputData> getOrderById(@PathVariable Long id) {
         OrderOutputData order = orderInteractor.getOrderById(id);
@@ -93,6 +93,18 @@ public class OrderController {
     public ResponseEntity<OrderOutputData> commitOrder(@PathVariable Long id) {
         try {
             orderInteractor.commitOrder(id);
+            return ResponseEntity.ok(orderInteractor.getOrderById(id));
+        } catch (IllegalArgumentException | IllegalStateException e){
+            return ResponseEntity.badRequest().build();
+        }
+        
+    }
+
+
+    @PatchMapping("/{id}/process")
+    public ResponseEntity<OrderOutputData> processOrder(@PathVariable Long id) {
+        try {
+            orderInteractor.processOrder(id);
             return ResponseEntity.ok(orderInteractor.getOrderById(id));
         } catch (IllegalArgumentException | IllegalStateException e){
             return ResponseEntity.badRequest().build();
