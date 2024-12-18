@@ -28,7 +28,7 @@ public class Order {
     @Column(name = "customer_name", nullable = false)
     private String customerName;
     @Column(name = "order_status", nullable = false)
-    private String orderstatus;
+    private String orderstatus = "Empty";
     //private LocalDateTime checkoutDateTime;  //<-zakomentowalam wszystko z checkouttime
 
     public Order(){
@@ -63,7 +63,7 @@ public class Order {
                 items.remove(i);
                 break; 
             }
-            if (i == 0){
+            if (items.isEmpty()){
                 this.orderstatus = "Empty";
             }
         }
@@ -85,9 +85,11 @@ public class Order {
             total += item.getPrice();
         }
         return total;
+
     }
     public void clear() {
         items.clear();
+        this.orderstatus = "Empty";
         //checkoutDateTime = null;
     }
 
