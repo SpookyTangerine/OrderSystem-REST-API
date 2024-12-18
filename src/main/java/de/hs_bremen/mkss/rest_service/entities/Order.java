@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -67,11 +68,11 @@ public class Order {
         for (LineItem item : items) {
             if (item.getName().equals(itemName)) {
                 items.remove(item); 
+                if (items.isEmpty()) {
+                    this.orderStatus = "EMPTY";
+                }
                 break; 
             }
-        }
-        if (items.isEmpty()) {
-            this.orderStatus = "EMPTY";
         }
     }
 
@@ -113,14 +114,17 @@ public class Order {
 
     public void commitOrder() {
         if (!"IN PREPARATION".equals(this.orderStatus)) {
-            throw new IllegalStateException("Only orders in IN_PREPARATION can be commited");
+            throw new IllegalStateException("Only orders in IN_PREPARATION status can be commited");
             }
         this.orderStatus = "COMMITTED";
         this.checkoutDate = LocalDateTime.now();
     }
 
     public void processOrder(){
-        if (orderStatus == "COMMITED"){
+        if (!"COMMITTED".equals(this.orderStatus)){
+            throw new IllegalStateException("Only orders in COMMITTED status can be processed");
+        }
+        else{
             Random random = new Random();
             int randomBinary = random.nextInt(2);
             if (randomBinary == 0){
