@@ -61,7 +61,12 @@ public class Order {
         if ("COMMITTED".equals(this.orderStatus)) {
             throw new IllegalStateException("Cannot remove items from a committed order.");
         }
-        items.removeIf(item -> item.getName().equals(itemName));
+        for (LineItem item : items) {
+            if (item.getName().equals(itemName)) {
+                items.remove(item); // Remove only the first matching item
+                break; // Stop after removing one item
+            }
+        }
         if (items.isEmpty()) {
             this.orderStatus = "EMPTY";
         }
