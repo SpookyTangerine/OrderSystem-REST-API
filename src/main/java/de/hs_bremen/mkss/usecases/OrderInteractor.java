@@ -81,7 +81,8 @@ public class OrderInteractor {
                 order.getId(),
                 order.getCustomerName(),
                 order.getItems(),
-                order.getTotalPrice()
+                order.getTotalPrice(),
+                order.getOrderStatus()
                 //order.getCheckoutDateTime()
         );
     }

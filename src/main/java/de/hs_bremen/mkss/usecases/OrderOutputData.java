@@ -11,14 +11,16 @@ public class OrderOutputData {
     private int totalPrice;
     //private LocalDateTime checkoutDateTime;
     private String customerName;
+    private String orderstatus;
 
 
     // additional constructor that omits checkoutDateTime to represent the situation where the order is being updated with new items
-    public OrderOutputData(Long orderId, String customerName, List<LineItem> items, int totalPrice) {
+    public OrderOutputData(Long orderId, String customerName, List<LineItem> items, int totalPrice, String orderstatus) {
         this.orderId = orderId;
         this.customerName = customerName;
         this.items = items;
         this.totalPrice = totalPrice;
+        this.orderstatus = orderstatus;
         //this.checkoutDateTime = null;
     }
 
@@ -46,6 +48,9 @@ public class OrderOutputData {
 
     public int getTotalPrice() {
         return totalPrice;
+    }
+    public String getOrderStatus(){
+        return orderstatus;
     }
 }
 

@@ -1,6 +1,7 @@
 CREATE TABLE orders_table (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    customer_name VARCHAR(255) NOT NULL
+    customer_name VARCHAR(255) NOT NULL,
+    order_status VARCHAR(20)
 );
 
 -- Tworzenie tabeli 'line_items'

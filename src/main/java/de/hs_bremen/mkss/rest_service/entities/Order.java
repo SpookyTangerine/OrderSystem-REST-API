@@ -27,6 +27,8 @@ public class Order {
 
     @Column(name = "customer_name", nullable = false)
     private String customerName;
+    @Column(name = "order_status", nullable = false)
+    private String orderstatus;
     //private LocalDateTime checkoutDateTime;  //<-zakomentowalam wszystko z checkouttime
 
     public Order(){
@@ -38,11 +40,12 @@ public class Order {
     }
     
     
-    public Order(Long id, String customerName){
+    public Order(Long id, String customerName, String orderstatus){
 
         this.id = id;
         this.customerName = customerName;
         this.items = new ArrayList<>();
+        this.orderstatus = orderstatus;
         
     }
 
@@ -60,6 +63,9 @@ public class Order {
                 items.remove(i);
                 break; 
             }
+            if (i == 0){
+                this.orderstatus = "Empty";
+            }
         }
     }
 
@@ -70,6 +76,7 @@ public class Order {
 
     public void addItem( LineItem item){
         items.add(item);
+        this.orderstatus = "In progress";
     }
 
     public int getTotalPrice(){
@@ -84,13 +91,18 @@ public class Order {
         //checkoutDateTime = null;
     }
 
+    public String getOrderStatus(){
+        return orderstatus;
+    }
+
     //  public LocalDateTime getCheckoutDateTime(){
     //      return this.checkoutDateTime;
     //  }
 
-    //public void finishOrder(){
+    public void finishOrder(){
         //this.checkoutDateTime = LocalDateTime.now();
-    //}
+        this.orderstatus = "Commited";
+    }
 
 
 }

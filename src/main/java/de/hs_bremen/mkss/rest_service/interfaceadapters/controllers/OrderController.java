@@ -49,7 +49,6 @@ public class OrderController {
         List<OrderOutputData> orders = orderInteractor.getAllOrders();
         return ResponseEntity.ok(orders);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<OrderOutputData> getOrderById(@PathVariable Long id) {
         OrderOutputData order = orderInteractor.getOrderById(id);
