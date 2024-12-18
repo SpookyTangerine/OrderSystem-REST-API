@@ -111,7 +111,7 @@ public class Order {
 
     public void commitOrder() {
         if (!"IN PREPARATION".equals(this.orderStatus)) {
-            throw new IllegalStateException("Only orders in IN_PREPARATION status can be commited");
+            throw new IllegalStateException("Only orders in IN PREPARATION status can be commited");
             }
         this.orderStatus = "COMMITTED";
     }
