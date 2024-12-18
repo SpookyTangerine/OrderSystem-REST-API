@@ -98,12 +98,9 @@ public class OrderController {
 
     @PatchMapping("/{id}/process")
     public ResponseEntity<OrderOutputData> processOrder(@PathVariable Long id) {
-        try {
-            orderInteractor.processOrder(id);
-            return ResponseEntity.ok(orderInteractor.getOrderById(id));
-        } catch (IllegalArgumentException | IllegalStateException e){
-            return ResponseEntity.badRequest().build();
-        }   
+        orderInteractor.processOrder(id);
+        return ResponseEntity.ok(orderInteractor.getOrderById(id));
+    
     }
 }
 

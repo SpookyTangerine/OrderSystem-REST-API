@@ -18,7 +18,7 @@ public class LineItem extends Item {
     private Order order;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Teraz to tutaj będzie 'id'
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 

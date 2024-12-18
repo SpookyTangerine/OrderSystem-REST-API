@@ -8,7 +8,8 @@ import de.hs_bremen.mkss.rest_service.entities.ItemFactory;
 import de.hs_bremen.mkss.rest_service.entities.LineItem;
 import de.hs_bremen.mkss.rest_service.entities.Order;
 import de.hs_bremen.mkss.rest_service.entities.domain.OrderStorageInterface;
-import de.hs_bremen.mkss.rest_service.exceptions.*;
+import de.hs_bremen.mkss.rest_service.exceptions.InvalidOrderState;
+import de.hs_bremen.mkss.rest_service.exceptions.OrderNotFound;
 
 @Service
 public class OrderInteractor {
@@ -37,9 +38,8 @@ public class OrderInteractor {
 
 
     public OrderOutputData getOrderById(Long id) {
-        return orderRepository.findById(id)
-            .map(this::mapToOrderOutputData)
-            .orElse(null);
+        return orderRepository.findById(id).map(this::mapToOrderOutputData).orElseThrow(() ->
+        new IllegalArgumentException("Order not found"));
     }
 
     public void addItemToOrder(Long orderId, String name, int quantity, int unitPrice) {
@@ -104,10 +104,13 @@ public class OrderInteractor {
     }
 
     public void processOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId)
-            .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFound(orderId));
+        if ("ACCEPTED".equals(order.getOrderStatus())) {
+            throw new InvalidOrderState("Can purchase only committed orders.");
+        }
 
         order.processOrder();
+        orderRepository.save(order);
     }
 }
 
