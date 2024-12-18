@@ -27,9 +27,9 @@ public class Order {
 
     @Column(name = "customer_name", nullable = false)
     private String customerName;
+
     @Column(name = "order_status", nullable = false)
-    private String orderstatus;
-    //private LocalDateTime checkoutDateTime;  //<-zakomentowalam wszystko z checkouttime
+    private String orderstatus = "EMPTY";
 
     public Order(){
 
@@ -76,7 +76,7 @@ public class Order {
 
     public void addItem( LineItem item){
         items.add(item);
-        this.orderstatus = "In progress";
+        this.orderstatus = "in progress";
     }
 
     public int getTotalPrice(){
