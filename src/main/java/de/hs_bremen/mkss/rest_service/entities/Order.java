@@ -63,8 +63,8 @@ public class Order {
         }
         for (LineItem item : items) {
             if (item.getName().equals(itemName)) {
-                items.remove(item); // Remove only the first matching item
-                break; // Stop after removing one item
+                items.remove(item); 
+                break; 
             }
         }
         if (items.isEmpty()) {
