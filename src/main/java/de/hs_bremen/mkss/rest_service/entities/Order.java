@@ -1,7 +1,6 @@
 package de.hs_bremen.mkss.rest_service.entities;
 
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
