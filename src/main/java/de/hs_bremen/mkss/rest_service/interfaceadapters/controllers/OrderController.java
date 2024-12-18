@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import de.hs_bremen.mkss.rest_service.entities.LineItem;
 import de.hs_bremen.mkss.usecases.ItemInputData;
 import de.hs_bremen.mkss.usecases.OrderInteractor;
 import de.hs_bremen.mkss.usecases.OrderOutputData;
@@ -101,6 +102,12 @@ public class OrderController {
         orderInteractor.processOrder(id);
         return ResponseEntity.ok(orderInteractor.getOrderById(id));
     
+    }
+
+    @GetMapping("/{id}/line-items")
+    public ResponseEntity<List<LineItem>> getLineItemsByOrderId(@PathVariable Long id) {
+        List<LineItem> lineItems = orderInteractor.getLineItemsByOrderId(id);
+        return ResponseEntity.ok(lineItems);
     }
 }
 
