@@ -1,4 +1,4 @@
-package com.example.Exercise6.entities;
+package de.hs_bremen.mkss.rest_service.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +18,7 @@ public class LineItem extends Item {
     private Order order;
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Teraz to tutaj będzie 'id'
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
@@ -27,8 +27,6 @@ public class LineItem extends Item {
     
     @Column(name = "unit_price", nullable = false)
     private int unitPrice;
-
-
 
     public LineItem() {
         super();

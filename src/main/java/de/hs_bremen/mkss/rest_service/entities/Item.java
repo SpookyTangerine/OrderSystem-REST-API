@@ -1,4 +1,4 @@
-package com.example.Exercise6.entities;
+package de.hs_bremen.mkss.rest_service.entities;
 
 import jakarta.persistence.MappedSuperclass;
 
@@ -21,3 +21,4 @@ public abstract class Item {
     public abstract int getPrice();
     public abstract void print();
 }
+

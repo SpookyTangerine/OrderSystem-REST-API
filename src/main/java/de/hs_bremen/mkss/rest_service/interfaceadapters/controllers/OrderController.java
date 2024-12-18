@@ -1,4 +1,4 @@
-package com.example.Exercise6.interfaceadapters.controllers;
+package de.hs_bremen.mkss.rest_service.interfaceadapters.controllers;
 
 import java.util.List;
 
@@ -6,18 +6,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.usecases.ItemInputData;
-import com.example.usecases.OrderInteractor;
-import com.example.usecases.OrderOutputData;
+import de.hs_bremen.mkss.rest_service.entities.LineItem;
+import de.hs_bremen.mkss.usecases.ItemInputData;
+import de.hs_bremen.mkss.usecases.OrderInteractor;
+import de.hs_bremen.mkss.usecases.OrderOutputData;
 
 @RestController
-@RequestMapping("/orders") // Wszystkie endpointy zaczynają się od /orders
+@RequestMapping("/orders") 
 public class OrderController {
 
     private final OrderInteractor orderInteractor;
@@ -35,33 +37,23 @@ public class OrderController {
         public void setCustomerName(String customerName) {
             this.customerName = customerName;
         }
+        
     }
-    // // Tworzenie nowego zamówienia
-    // @PostMapping
-    // public ResponseEntity<OrderOutputData> createNewOrder(@RequestBody CreateOrderRequest request) {
-    //     OrderOutputData newOrder = orderInteractor.createNewOrder(request.getCustomerName());
-    //     return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
-    // }
 
     @PostMapping
     public ResponseEntity<OrderOutputData> createNewOrder(@RequestBody CreateOrderRequest request) {
-    // Dodaj logowanie
-    System.out.println("Received request: " + request.getCustomerName());
+        OrderOutputData newOrder = orderInteractor.createNewOrder(request.getCustomerName());
+        return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
+    }
+
     
-    OrderOutputData newOrder = orderInteractor.createNewOrder(request.getCustomerName());
-    return ResponseEntity.status(HttpStatus.CREATED).body(newOrder);
-}
-
-
-
-    // Pobranie wszystkich zamówień
     @GetMapping
     public ResponseEntity<List<OrderOutputData>> getAllOrders() {
         List<OrderOutputData> orders = orderInteractor.getAllOrders();
         return ResponseEntity.ok(orders);
     }
-
-    // Pobranie zamówienia po ID
+    
+    @GetMapping("/{id}")
     public ResponseEntity<OrderOutputData> getOrderById(@PathVariable Long id) {
         OrderOutputData order = orderInteractor.getOrderById(id);
         if (order != null) {
@@ -71,7 +63,6 @@ public class OrderController {
         }
     }
 
-    // Dodanie przedmiotu do zamówienia
     @PostMapping("/{id}/line-items")
     public ResponseEntity<OrderOutputData> addItemToOrder(
             @PathVariable Long id, @RequestBody ItemInputData itemData) {
@@ -79,8 +70,6 @@ public class OrderController {
         return ResponseEntity.ok(orderInteractor.getOrderById(id));
     }
 
-
-    // Usunięcie przedmiotu z zamówienia
     @DeleteMapping("/{id}/line-items/{itemName}")
     public ResponseEntity<Void> removeItemFromOrder(@PathVariable Long id, @PathVariable String itemName) {
         boolean success = orderInteractor.removeLineItemFromOrder(id, itemName);
@@ -91,7 +80,6 @@ public class OrderController {
         }
     }
 
-    // Usunięcie zamówienia
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         boolean success = orderInteractor.deleteOrder(id);
@@ -101,7 +89,30 @@ public class OrderController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PatchMapping("/{id}/commit")
+    public ResponseEntity<OrderOutputData> commitOrder(@PathVariable Long id) {
+        orderInteractor.commitOrder(id);
+        return ResponseEntity.ok(orderInteractor.getOrderById(id));
+    }
+
+
+    @PatchMapping("/{id}/process")
+    public ResponseEntity<OrderOutputData> processOrder(@PathVariable Long id) {
+        orderInteractor.processOrder(id);
+        return ResponseEntity.ok(orderInteractor.getOrderById(id));
+    
+    }
+
+    @GetMapping("/{id}/line-items")
+    public ResponseEntity<List<LineItem>> getLineItemsByOrderId(@PathVariable Long id) {
+        List<LineItem> lineItems = orderInteractor.getLineItemsByOrderId(id);
+        return ResponseEntity.ok(lineItems);
+    }
 }
+
+
+
 
 
 
