@@ -1,26 +1,26 @@
 package de.hs_bremen.mkss.rest_service.interfaceadapters.controllers;
 
-import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import de.hs_bremen.mkss.events.Event;
 import de.hs_bremen.mkss.events.EventWithPayload;
 import de.hs_bremen.mkss.usecases.OrderOutputData;
 
-@Component
+@Service
 public class OrderEventsProducer {
 
-    private final AmqpTemplate amqpTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
     @Value("${my.rabbitmq.exchange}")
-    private String exchangeName;
+    private String exchange;
 
     @Value("${my.rabbitmq.routing.key}")
     private String routingKey;
 
-    public OrderEventsProducer(AmqpTemplate amqpTemplate) {
-        this.amqpTemplate = amqpTemplate;
+    public OrderEventsProducer(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     public void emitOrderEvent(OrderOutputData order) {
@@ -29,7 +29,12 @@ public class OrderEventsProducer {
             .payload(order)
             .build();
 
-        amqpTemplate.convertAndSend(exchangeName, routingKey, event);
+            rabbitTemplate.convertAndSend(exchange, routingKey, event);
         System.out.println("Sent event: " + event);
     }
 }
+
+
+
+
+

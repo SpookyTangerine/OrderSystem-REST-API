@@ -8,7 +8,6 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,10 +17,10 @@ public class RabbitMqConfig {
 
 
     @Value("${my.rabbitmq.exchange}")
-    private String exchangeName;
+    private String exchange;
 
     @Value("${my.rabbitmq.queue}")
-    private String queueName;
+    private String queue;
 
     @Value("${my.rabbitmq.routing.key}")
     private String routingKey;
@@ -29,25 +28,25 @@ public class RabbitMqConfig {
 
     @Bean
     public DirectExchange directExchange() {
-        System.out.println("Initializing DirectExchange: " + exchangeName);
-        return new DirectExchange(exchangeName);
+        System.out.println("Initializing DirectExchange: " + exchange);
+        return new DirectExchange(exchange);
     }
 
     @Bean
     public Queue queue() {
-        System.out.println("Initializing Queue: " + queueName);
-        return new Queue(queueName, false);
+        System.out.println("Initializing Queue: " + queue);
+        return new Queue(queue, false);
     }
 
 
     @Bean
-    public Binding binding(Queue queue, DirectExchange directExchange) {
-        return BindingBuilder.bind(queue).to(directExchange).with(routingKey);
+    public Binding binding(Queue queue, DirectExchange exchange) {
+        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
     }
 
 
     @Bean
-    public MessageConverter jsonMessageConverter() {
+    public Jackson2JsonMessageConverter jsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
 
