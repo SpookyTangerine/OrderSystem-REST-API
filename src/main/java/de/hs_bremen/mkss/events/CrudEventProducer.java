@@ -1,4 +1,4 @@
-package de.hsbremen.mkss.events;
+package de.hs_bremen.mkss.events;
 
 public interface CrudEventProducer<T> {
 

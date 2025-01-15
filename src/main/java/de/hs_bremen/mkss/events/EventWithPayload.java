@@ -1,4 +1,4 @@
-package de.hsbremen.mkss.events;
+package de.hs_bremen.mkss.events;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

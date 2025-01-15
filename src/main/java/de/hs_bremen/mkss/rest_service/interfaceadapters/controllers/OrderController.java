@@ -23,9 +23,12 @@ import de.hs_bremen.mkss.usecases.OrderOutputData;
 public class OrderController {
 
     private final OrderInteractor orderInteractor;
+    private final OrderEventsProducer orderEventsProducer;
+    
 
-    public OrderController(OrderInteractor orderInteractor) {
+    public OrderController(OrderInteractor orderInteractor, OrderEventsProducer orderEventsProducer) {
         this.orderInteractor = orderInteractor;
+        this.orderEventsProducer = orderEventsProducer;
     }
     public static class CreateOrderRequest {
         private String customerName;
@@ -90,11 +93,13 @@ public class OrderController {
         }
     }
 
+
     @PatchMapping("/{id}/commit")
     public ResponseEntity<OrderOutputData> commitOrder(@PathVariable Long id) {
-        orderInteractor.commitOrder(id);
-        return ResponseEntity.ok(orderInteractor.getOrderById(id));
-    }
+    orderInteractor.commitOrder(id);
+    orderEventsProducer.emitOrderEvent(orderInteractor.getOrderById(id));
+    return ResponseEntity.ok(orderInteractor.getOrderById(id));
+}
 
 
     @PatchMapping("/{id}/process")
