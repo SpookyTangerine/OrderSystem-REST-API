@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name = "orders_table")
 public class Order {
@@ -42,24 +41,84 @@ public class Order {
     public Order(String customerName){
         this.customerName = customerName;
     }
-    
-    
-    public Order(Long id, String customerName, String orderStatus){
 
+    private Order(Long id, String customerName, String orderStatus, LocalDateTime checkoutDate, List<LineItem> items) {
         this.id = id;
         this.customerName = customerName;
-        this.items = new ArrayList<>();
         this.orderStatus = orderStatus;
-        
+        this.checkoutDate = checkoutDate;
+        if (items != null) {
+            this.items = items;
+        }
     }
+
+
+    public static class OrderBuilder {
+        private Long id;
+        private String customerName;
+        private String orderStatus = "EMPTY";
+        private LocalDateTime checkoutDate;
+        private List<LineItem> items = new ArrayList<>();
+
+        public OrderBuilder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public OrderBuilder customerName(String customerName) {
+            this.customerName = customerName;
+            return this;
+        }
+
+        public OrderBuilder orderStatus(String orderStatus) {
+            this.orderStatus = orderStatus;
+            return this;
+        }
+
+        public OrderBuilder checkoutDate(LocalDateTime checkoutDate) {
+            this.checkoutDate = checkoutDate;
+            return this;
+        }
+
+        public OrderBuilder items(List<LineItem> items) {
+            this.items = items;
+            return this;
+        }
+
+        public Order build() {
+            return new Order(id, customerName, orderStatus, checkoutDate, items);
+        }
+    }
+
+
+    public static OrderBuilder builder() {
+        return new OrderBuilder();
+    }
+
 
     public String getCustomerName() {  
         return customerName;
     }
 
-    public Long getId(){
+    public Long getId() {
         return id;
     }
+
+    // The orders are still not protected, should be changed 
+    public List<LineItem> getItems() {
+        return items;
+    }
+
+    public String getOrderStatus() {
+        return orderStatus;
+    }
+
+    public LocalDateTime getCheckoutDate() {
+        return checkoutDate;
+    }
+
+
+
 
     public void removeLineItemFromOrder(String itemName) {
         if ("COMMITTED".equals(this.orderStatus)) {
@@ -76,12 +135,8 @@ public class Order {
         }
     }
 
-    //the orders are still not protected, should be changed 
-    public List<LineItem> getItems() {
-        return items;
-    }
 
-    public void addItem( LineItem item){
+    public void addItem(LineItem item) {
         if ("COMMITTED".equals(this.orderStatus)) {
             throw new IllegalStateException("Cannot add items to a committed order.");
         }
@@ -89,54 +144,43 @@ public class Order {
         this.orderStatus = "IN PREPARATION";
     }
 
-    public int getTotalPrice(){
+
+    public int getTotalPrice() {
         int total = 0;
         for (LineItem item : items) {
             total += item.getPrice();
         }
         return total;
-
     }
+
+
     public void clear() {
         items.clear();
         this.orderStatus = "EMPTY";
         //checkoutDateTime = null;
     }
 
-    public String getOrderStatus(){
-        return orderStatus;
-    }
-
-    public LocalDateTime getCheckoutDate(){
-        return this.checkoutDate;
-    }
-
 
     public void commitOrder() {
         if (!"IN PREPARATION".equals(this.orderStatus)) {
-            throw new IllegalStateException("Only orders in IN PREPARATION status can be commited");
-            }
+            throw new IllegalStateException("Only orders in IN PREPARATION status can be committed.");
+        }
         this.orderStatus = "COMMITTED";
         this.checkoutDate = LocalDateTime.now();
     }
 
-    public void processOrder(){
-        if (!"COMMITTED".equals(this.orderStatus)){
-            throw new IllegalStateException("Only orders in COMMITTED status can be processed");
-        }
-        else{
+    // Processes the order with random acceptance/rejection
+    public void processOrder() {
+        if (!"COMMITTED".equals(this.orderStatus)) {
+            throw new IllegalStateException("Only orders in COMMITTED status can be processed.");
+        } else {
             Random random = new Random();
             int randomBinary = random.nextInt(2);
-            if (randomBinary == 0){
+            if (randomBinary == 0) {
                 this.orderStatus = "REJECTED";
-            }
-            else{
+            } else {
                 this.orderStatus = "ACCEPTED";
             }
         }
     }
 }
-
-
-
-

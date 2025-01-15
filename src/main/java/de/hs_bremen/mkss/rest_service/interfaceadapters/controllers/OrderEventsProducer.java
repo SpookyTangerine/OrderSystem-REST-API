@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import de.hs_bremen.mkss.rest_service.entities.Order;
+import de.hs_bremen.mkss.usecases.OrderOutputData;
 import de.hs_bremen.mkss.events.Event;
 import de.hs_bremen.mkss.events.EventWithPayload;
 
@@ -21,15 +22,17 @@ public class OrderEventsProducer {
 
     public OrderEventsProducer(AmqpTemplate amqpTemplate) {
         this.amqpTemplate = amqpTemplate;
+        System.out.println("HIHIHIHIHI");
     }
 
-    public void emitOrderEvent(Order order) {
-        EventWithPayload<Order> event = EventWithPayload.<Order>builder()
+    public void emitOrderEvent(OrderOutputData orderOutputData) {
+        EventWithPayload<OrderOutputData> event = EventWithPayload.<OrderOutputData>builder()
             .type(Event.EventType.CREATED)
-            .payload(order)
+            .payload(orderOutputData)
             .build();
-
+    
         amqpTemplate.convertAndSend(exchangeName, routingKey, event);
         System.out.println("Sent event: " + event);
     }
+
 }
