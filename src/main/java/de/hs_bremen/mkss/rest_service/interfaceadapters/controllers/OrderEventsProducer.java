@@ -4,9 +4,9 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import de.hs_bremen.mkss.rest_service.entities.Order;
 import de.hs_bremen.mkss.events.Event;
 import de.hs_bremen.mkss.events.EventWithPayload;
+import de.hs_bremen.mkss.usecases.OrderOutputData;
 
 @Component
 public class OrderEventsProducer {
@@ -23,8 +23,8 @@ public class OrderEventsProducer {
         this.amqpTemplate = amqpTemplate;
     }
 
-    public void emitOrderEvent(Order order) {
-        EventWithPayload<Order> event = EventWithPayload.<Order>builder()
+    public void emitOrderEvent(OrderOutputData order) {
+        EventWithPayload<OrderOutputData> event = EventWithPayload.<OrderOutputData>builder()
             .type(Event.EventType.CREATED)
             .payload(order)
             .build();
