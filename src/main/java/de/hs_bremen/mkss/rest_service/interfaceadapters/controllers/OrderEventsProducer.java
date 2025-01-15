@@ -8,6 +8,7 @@ import de.hs_bremen.mkss.rest_service.entities.Order;
 import de.hs_bremen.mkss.usecases.OrderOutputData;
 import de.hs_bremen.mkss.events.Event;
 import de.hs_bremen.mkss.events.EventWithPayload;
+import de.hs_bremen.mkss.usecases.OrderOutputData;
 
 @Component
 public class OrderEventsProducer {
@@ -25,7 +26,7 @@ public class OrderEventsProducer {
         System.out.println("HIHIHIHIHI");
     }
 
-    public void emitOrderEvent(OrderOutputData orderOutputData) {
+    public void emitOrderEvent(OrderOutputData order) {
         EventWithPayload<OrderOutputData> event = EventWithPayload.<OrderOutputData>builder()
             .type(Event.EventType.CREATED)
             .payload(orderOutputData)
