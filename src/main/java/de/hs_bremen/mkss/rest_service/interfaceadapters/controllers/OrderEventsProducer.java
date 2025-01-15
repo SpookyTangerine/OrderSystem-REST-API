@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import de.hs_bremen.mkss.rest_service.entities.Order;
-import de.hsbremen.mkss.events.Event;
-import de.hsbremen.mkss.events.EventWithPayload;
+import de.hs_bremen.mkss.events.Event;
+import de.hs_bremen.mkss.events.EventWithPayload;
 
 @Component
 public class OrderEventsProducer {
