@@ -25,6 +25,16 @@ public class RabbitMqConfig {
     @Value("${my.rabbitmq.routing.key}")
     private String routingKey;
 
+    @Value("${my.rabbitmq.routing.key}")
+    private String replyroutingkey;
+
+    @Value("${my.rabbitmq.reply.queue}")
+    private String replyqueue;
+
+    @Value("${my.rabbitmq.exchange}")
+    private String replyexchange;
+
+
 
     @Bean
     public DirectExchange directExchange() {
@@ -37,6 +47,8 @@ public class RabbitMqConfig {
         System.out.println("Initializing Queue: " + queue);
         return new Queue(queue, false);
     }
+
+
 
 
     @Bean

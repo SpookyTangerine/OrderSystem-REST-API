@@ -19,6 +19,12 @@ public class OrderEventsProducer {
     @Value("${my.rabbitmq.routing.key}")
     private String routingKey;
 
+    @Value("${my.rabbitmq.exchange}")
+    private String replyExchange;
+
+    @Value("${my.rabbitmq.routing.key}")
+    private String replyRoutingKey;
+
     public OrderEventsProducer(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
@@ -30,9 +36,22 @@ public class OrderEventsProducer {
             .build();
 
             rabbitTemplate.convertAndSend(exchange, routingKey, event);
-        System.out.println("Sent event: " + event);
+        System.out.println("\n Sent event: " + event +"\n");
     }
+
+    public void getOrderEvent(OrderOutputData order) {
+        EventWithPayload<OrderOutputData> event1 = EventWithPayload.<OrderOutputData>builder()
+            .type(Event.EventType.CHANGED)
+            .payload(order)
+            .build();
+
+            rabbitTemplate.convertAndSend(replyExchange, replyRoutingKey, event1);
+        System.out.println("\n got event: " + event1 +"\n");
+    }
+
 }
+
+
 
 
 
