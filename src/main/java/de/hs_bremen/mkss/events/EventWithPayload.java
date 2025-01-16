@@ -21,6 +21,7 @@ public class EventWithPayload<T> extends Event {
     public EventWithPayload(EventType type, T payload) {
         super(type);
         this.payload = payload;
+        System.out.println("HEEEEEEEEEY");
     }
 
     // Private constructor only for JSON deserialization (Jackson)

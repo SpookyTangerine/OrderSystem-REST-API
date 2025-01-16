@@ -1,7 +1,6 @@
 package de.hs_bremen.mkss.events;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
